@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kru Pai Classroom · Word Problem Adventure (Add & Subtract)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        font-family: "Trebuchet MS", sans-serif;
+        background: radial-gradient(circle at top, #e3f2fd, #bbdefb, #90caf9);
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        color: #134b7f;
+    }
+    h1 {
+        font-size: 36px;
+        margin-top: 20px;
+        color: #0d47a1;
+        text-shadow: 0 0 8px rgba(255,255,255,0.8);
+    }
+    h2 {
+        color: #1565c0;
+        font-size: 22px;
+    }
+    h3 {
+        color: #1e88e5;
+    }
+    .card {
+        max-width: 960px;
+        margin: 10px auto 20px auto;
+        background: rgba(255,255,255,0.96);
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        padding: 20px 24px 24px 24px;
+        box-sizing: border-box;
+    }
+    .big-input {
+        font-size: 24px;
+        padding: 8px 15px;
+        border-radius: 999px;
+        border: 2px solid #64b5f6;
+        text-align: center;
+        width: 260px;
+        outline: none;
+    }
+    .big-input:focus {
+        box-shadow: 0 0 0 3px rgba(100,181,246,0.4);
+    }
+    .main-btn {
+        background: linear-gradient(135deg,#64b5f6,#1976d2);
+        color: #fff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 22px;
+        border-radius: 999px;
+        cursor: pointer;
+        margin-top: 15px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+    .main-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.03);
+    }
+    .menu-title {
+        margin-top: 10px;
+        color: #1565c0;
+        font-size: 18px;
+    }
+    .set-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin: 6px 0;
+        flex-wrap: wrap;
+    }
+    .set-btn {
+        background: linear-gradient(135deg,#90caf9,#1e88e5);
+        border: none;
+        padding: 8px 22px;
+        border-radius: 999px;
+        font-size: 18px;
+        cursor: pointer;
+        color: #fff;
+        min-width: 90px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    }
+    .set-btn:hover {
+        filter: brightness(1.05);
+    }
+    .set-score {
+        font-size: 14px;
+        color: #1565c0;
+        background: #e3f2fd;
+        padding: 4px 12px;
+        border-radius: 999px;
+        min-width: 130px;
+    }
+    .time-btn {
+        background: #e3f2fd;
+        border: 2px solid #64b5f6;
+        padding: 8px 20px;
+        border-radius: 999px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 4px;
+        color: #1565c0;
+    }
+    .time-btn.active {
+        background: #64b5f6;
+        color: #fff;
+    }
+    #timer {
+        font-size: 24px;
+        color: #0d47a1;
+        margin-top: 5px;
+    }
+    #playerNameShow {
+        font-size: 18px;
+        color: #1565c0;
+        margin-top: 5px;
+    }
+    #setTitle {
+        margin-bottom: 10px;
+    }
+    #questionArea {
+        text-align: left;
+        margin-top: 10px;
+    }
+    .question-box {
+        font-size: 18px;
+        margin: 8px 0;
+        padding: 8px 10px;
+        background: #e8f4ff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        line-height: 1.4;
+    }
+    .q-text {
+        flex: 1 1 auto;
+    }
+    .answer-wrap {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    .answer-input {
+        width: 70px;
+        font-size: 20px;
+        padding: 4px;
+        text-align: center;
+        border-radius: 10px;
+        border: 2px solid #64b5f6;
+        outline: none;
+    }
+    .answer-input:focus {
+        box-shadow: 0 0 0 2px rgba(100,181,246,0.4);
+    }
+    .marker {
+        font-size: 22px;
+        padding-left: 4px;
+    }
+    .marker.ok {
+        color: #2e7d32;
+    }
+    .marker.no {
+        color: #c62828;
+    }
+    .check-btn {
+        background: linear-gradient(135deg,#64b5f6,#1565c0);
+        border: none;
+        padding: 12px 32px;
+        border-radius: 999px;
+        font-size: 20px;
+        cursor: pointer;
+        margin-top: 15px;
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+    .check-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.03);
+    }
+    #scoreBox {
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 16px;
+        background: #e3f2fd;
+        border: 2px solid #90caf9;
+        font-size: 20px;
+        color: #0d47a1;
+    }
+    #backBtn {
+        margin-top: 18px;
+        background: #546e7a;
+        color: #fff;
+        padding: 10px 26px;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    #backBtn:hover {
+        filter: brightness(1.05);
+    }
+    .hint-line {
+        font-size: 15px;
+        color: #1565c0;
+        margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            padding: 0;
+        }
+        .card {
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            border-radius: 0;
+            min-height: 100vh;
+            padding: 16px 10px 20px 10px;
+        }
+        h1 {
+            font-size: 7vw;
+            margin-top: 12px;
+        }
+        h2 {
+            font-size: 5.2vw;
+        }
+        h3 {
+            font-size: 4.8vw;
+        }
+        .menu-title,
+        .set-score,
+        #playerNameShow,
+        .hint-line {
+            font-size: 4vw;
+        }
+        .big-input {
+            width: 80%;
+            font-size: 5.5vw;
+        }
+        .main-btn,
+        .check-btn,
+        .set-btn,
+        .time-btn,
+        #backBtn {
+            font-size: 4.5vw;
+            padding: 9px 18px;
+        }
+        #timer {
+            font-size: 5.5vw;
+        }
+        .question-box {
+            font-size: 4.1vw;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .answer-wrap {
+            margin-top: 4px;
+        }
+        .answer-input {
+            width: 20vw;
+            font-size: 4.8vw;
+        }
+        .marker {
+            font-size: 5.5vw;
+        }
+        #scoreBox {
+            font-size: 4.6vw;
+        }
+    }
+</style>
+</head>
+<body>
+
+<h1>Word Problem Adventure · Kru Pai Classroom</h1>
+
+<div id="startScreen" class="card">
+    <h2>Type your name to begin 🧠✨</h2>
+    <input id="playerName" class="big-input" placeholder="Your nickname...">
+    <br>
+    <button class="main-btn" onclick="startHome()">Start</button>
+</div>
+
+<div id="home" class="card" style="display:none;">
+    <h2>Choose a word problem set 📘</h2>
+    <div id="playerNameShow"></div>
+    <p class="menu-title">
+        6 sets · 10 word problems in each set<br>
+        Addition & subtraction with cute stories 🐻🍎🎈
+    </p>
+
+    <h3>Sets 1–2 · Single-digit stories</h3>
+    <div class="set-row">
+        <button class="set-btn" onclick="startSet(1)">Set 1</button>
+        <span class="set-score" id="scoreSet1">Not played</span>
+    </div>
+    <div class="set-row">
+        <button class="set-btn" onclick="startSet(2)">Set 2</button>
+        <span class="set-score" id="scoreSet2">Not played</span>
+    </div>
+
+    <h3>Sets 3–5 · Two-digit ± one-digit</h3>
+    <div class="set-row">
+        <button class="set-btn" onclick="startSet(3)">Set 3</button>
+        <span class="set-score" id="scoreSet3">Not played</span>
+    </div>
+    <div class="set-row">
+        <button class="set-btn" onclick="startSet(4)">Set 4</button>
+        <span class="set-score" id="scoreSet4">Not played</span>
+    </div>
+    <div class="set-row">
+        <button class="set-btn" onclick="startSet(5)">Set 5</button>
+        <span class="set-score" id="scoreSet5">Not played</span>
+    </div>
+
+    <h3>Set 6 · Two-digit ± two-digit</h3>
+    <div class="set-row">
+        <button class="set-btn" onclick="startSet(6)">Set 6</button>
+        <span class="set-score" id="scoreSet6">Not played</span>
+    </div>
+
+    <h3>Timer mode ⏱</h3>
+    <button id="timeOnBtn"  class="time-btn"        onclick="setTimer(true)">Timed · 60 seconds</button>
+    <button id="timeOffBtn" class="time-btn active" onclick="setTimer(false)">No timer</button>
+    <p class="hint-line">Tip: Use “No timer” first. When students are ready, switch to timed mode!</p>
+</div>
+
+<div id="game" class="card" style="display:none;">
+    <h2 id="setTitle"></h2>
+    <div id="timer"></div>
+    <div id="questionArea"></div>
+    <button class="check-btn" onclick="checkAnswers()">Check all answers</button>
+    <div id="scoreBox" style="display:none;"></div>
+    <button id="backBtn" onclick="goHome()">Back to set menu</button>
+</div>
+
+<script>
+let audioCtx = null;
+function playClick() {
+    try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.frequency.value = 750;
+        o.type = "sine";
+        const now = audioCtx.currentTime;
+        g.gain.setValueAtTime(0.08, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        o.start(now);
+        o.stop(now + 0.12);
+    } catch(e) {}
+}
+
+function playResultGood() {
+    try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.frequency.value = 950;
+        o.type = "triangle";
+        const now = audioCtx.currentTime;
+        g.gain.setValueAtTime(0.09, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+        o.start(now);
+        o.stop(now + 0.18);
+    } catch(e) {}
+}
+
+let isTimed = false;
+let timerCount = 60;
+let timerInterval;
+let currentSet = 1;
+let scores = Array(7).fill(null);
+let playerName = "";
+let alreadyChecked = false;
+
+const sets = {
+    1: [
+        { text: "Mom has 7 apples 🍎. She gives 3 apples to her son. How many apples does she have left?", answer: 4 },
+        { text: "A dog has 4 bones 🦴. It finds 2 more bones. How many bones does it have now?", answer: 6 },
+        { text: "There are 9 birds 🐦 on a tree. 5 birds fly away. How many birds remain?", answer: 4 },
+        { text: "A girl has 6 stickers 💖. Her friend gives her 3 more. How many stickers does she have?", answer: 9 },
+        { text: "Sam has 8 balloons 🎈. 4 balloons pop. How many balloons are left?", answer: 4 },
+        { text: "There are 5 pencils ✏️ on the desk. Dad buys 2 more. How many pencils now?", answer: 7 },
+        { text: "A boy has 3 candies 🍬. He buys 4 more candies. How many candies does he have?", answer: 7 },
+        { text: "A cat catches 7 mice 🐭. 2 mice run away. How many mice are left?", answer: 5 },
+        { text: "A box has 6 toys 🧸. Another box has 3 toys. How many toys altogether?", answer: 9 },
+        { text: "Lily eats 5 cookies 🍪. Her friend gives her 1 more cookie. How many cookies does she eat in total?", answer: 6 }
+    ],
+    2: [
+        { text: "Tom has 9 oranges 🍊. He eats 4. How many oranges are left?", answer: 5 },
+        { text: "A class has 8 girls and 2 boys 👧👦. How many children are there?", answer: 10 },
+        { text: "A turtle moves 6 steps 🐢. Then it moves 3 more. How many steps in total?", answer: 9 },
+        { text: "Mom buys 7 candies 🍬. She gives 2 to her child. How many candies are left?", answer: 5 },
+        { text: "A boy has 4 marbles. He finds 5 more. How many marbles now?", answer: 9 },
+        { text: "There are 9 cars 🚗 in the parking lot. 3 cars leave. How many cars remain?", answer: 6 },
+        { text: "A bird lays 5 eggs 🥚. 1 egg breaks. How many eggs are left?", answer: 4 },
+        { text: "Dad has 8 stamps. He buys 1 more. How many stamps does he have?", answer: 9 },
+        { text: "Ben catches 6 fish 🐟. 2 fish escape. How many fish are left?", answer: 4 },
+        { text: "A bag has 7 apples 🍎. A girl adds 1 apple. How many apples in the bag?", answer: 8 }
+    ],
+    3: [
+        { text: "Mom has 21 flowers 🌸. She buys 3 more. How many now?", answer: 24 },
+        { text: "A boy has 34 stickers 💖. He loses 2. How many stickers are left?", answer: 32 },
+        { text: "A shop sells 42 candies 🍬 in the morning, then 3 more in the afternoon. How many candies sold in total?", answer: 45 },
+        { text: "Emma has 56 pencils ✏️. She gives 4 to her friend. How many remain?", answer: 52 },
+        { text: "A farmer has 23 eggs 🥚. 5 eggs break. How many eggs are left?", answer: 18 },
+        { text: "There are 31 chairs 💺. Dad adds 8 more. How many chairs now?", answer: 39 },
+        { text: "A box has 44 toys 🧸. A child takes 2. How many toys are left?", answer: 42 },
+        { text: "A bus has 27 passengers 🚌. 1 person gets off. How many remain?", answer: 26 },
+        { text: "Lucy has 35 cards. She gets 4 more. How many cards in total?", answer: 39 },
+        { text: "A team has 52 points. They score 7 more. What is their total score?", answer: 59 }
+    ],
+    4: [
+        { text: "Jim collects 45 coins 💰. He finds 4 more. How many coins does he have now?", answer: 49 },
+        { text: "There are 62 balloons 🎈. 3 balloons pop. How many are left?", answer: 59 },
+        { text: "A shop has 54 notebooks 📓. It sells 5. How many notebooks remain?", answer: 49 },
+        { text: "A girl reads 71 pages 📖. She reads 8 more. How many pages does she read in total?", answer: 79 },
+        { text: "A boy has 26 crayons 🖍️. He gives 4 to his sister. How many are left?", answer: 22 },
+        { text: "A basket has 33 apples 🍎. Mom adds 6. How many apples now?", answer: 39 },
+        { text: "Dad walks 42 steps 🚶. Then he walks 7 more. How many steps in total?", answer: 49 },
+        { text: "A classroom has 51 books 📚. 2 books are lost. How many books are left?", answer: 49 },
+        { text: "Ben scores 64 points in a game 🎮. He scores 3 more. What is his total score?", answer: 67 },
+        { text: "A jar has 28 candies 🍬. A girl eats 6. How many candies are left?", answer: 22 }
+    ],
+    5: [
+        { text: "A box has 32 blocks 🧱. A boy adds 6. How many blocks in the box now?", answer: 38 },
+        { text: "There are 45 birds 🐦. 3 fly away. How many birds remain?", answer: 42 },
+        { text: "Mom buys 58 cookies 🍪. She gives 7 to the kids. How many cookies are left?", answer: 51 },
+        { text: "A girl has 26 flowers 🌼. She gets 3 more. How many flowers does she have?", answer: 29 },
+        { text: "A boy has 37 pencils ✏️. He loses 4. How many are left?", answer: 33 },
+        { text: "A library has 63 books 📚. It buys 5 more. How many books now?", answer: 68 },
+        { text: "Mary has 24 candies 🍬. She eats 3. How many candies remain?", answer: 21 },
+        { text: "A bus carries 55 people 🚌. 2 people get off. How many people are left on the bus?", answer: 53 },
+        { text: "A box has 47 crayons 🖍️. The teacher adds 2. How many crayons now?", answer: 49 },
+        { text: "A farmer has 39 ducks 🦆. 4 run away. How many ducks remain?", answer: 35 }
+    ],
+    6: [
+        { text: "Mom has 24 apples 🍎. She buys 32 more. How many apples does she have now?", answer: 56 },
+        { text: "A farmer has 43 chickens 🐔. 21 run away. How many are left?", answer: 22 },
+        { text: "A shop sells 35 cakes 🧁 in the morning and 22 in the afternoon. How many cakes are sold in total?", answer: 57 },
+        { text: "A class has 41 boys and 28 girls 👦👧. How many students are there?", answer: 69 },
+        { text: "Dad drives 62 km 🚗 on Monday and 15 km on Tuesday. How many km in total?", answer: 77 },
+        { text: "Lucy has 54 stickers 💖. She gives 12 to a friend. How many stickers are left?", answer: 42 },
+        { text: "There are 33 balloons 🎈. A child pops 14. How many balloons remain?", answer: 19 },
+        { text: "Emma collects 46 shells 🐚. She finds 23 more. How many shells does she have in total?", answer: 69 },
+        { text: "A team scores 25 points in the first half and 34 in the second half 🏀. What is the total score?", answer: 59 },
+        { text: "A school has 72 desks. 18 are broken. How many desks are still good?", answer: 54 }
+    ]
+};
+
+function startHome() {
+    playClick();
+    const nameInput = document.getElementById("playerName").value.trim();
+    playerName = nameInput || "Student";
+    document.getElementById("playerNameShow").innerText = "Player: " + playerName;
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("home").style.display = "block";
+    updateScoreboard();
+}
+
+function setTimer(choice) {
+    playClick();
+    isTimed = choice;
+    const onBtn  = document.getElementById("timeOnBtn");
+    const offBtn = document.getElementById("timeOffBtn");
+    if (isTimed) {
+        onBtn.classList.add("active");
+        offBtn.classList.remove("active");
+    } else {
+        offBtn.classList.add("active");
+        onBtn.classList.remove("active");
+    }
+}
+
+function startSet(setNum) {
+    playClick();
+    currentSet = setNum;
+    alreadyChecked = false;
+    document.getElementById("scoreBox").style.display = "none";
+    document.getElementById("scoreBox").innerHTML = "";
+    const setTitleMap = {
+        1: "Set 1 · Single-digit stories 🐻",
+        2: "Set 2 · Single-digit stories 🐰",
+        3: "Set 3 · Two-digit ± one-digit 🧮",
+        4: "Set 4 · Two-digit ± one-digit 📗",
+        5: "Set 5 · Mix add & subtract 🎲",
+        6: "Set 6 · Two-digit ± two-digit ⭐"
+    };
+    document.getElementById("setTitle").innerText = setTitleMap[setNum] || ("Set " + setNum);
+
+    buildQuestions();
+    document.getElementById("home").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    clearInterval(timerInterval);
+    if (isTimed) {
+        timerCount = 60;
+        document.getElementById("timer").innerHTML = "⏳ Time left: " + timerCount + " s";
+        timerInterval = setInterval(function() {
+            timerCount--;
+            document.getElementById("timer").innerHTML = "⏳ Time left: " + timerCount + " s";
+            if (timerCount <= 0) {
+                clearInterval(timerInterval);
+                if (!alreadyChecked) {
+                    checkAnswers();
+                }
+            }
+        }, 1000);
+    } else {
+        document.getElementById("timer").innerHTML = "";
+    }
+}
+
+function buildQuestions() {
+    const qArea = document.getElementById("questionArea");
+    qArea.innerHTML = "";
+    const set = sets[currentSet] || [];
+    set.forEach((q, idx) => {
+        const div = document.createElement("div");
+        div.className = "question-box";
+        div.id = "qBox" + idx;
+        div.innerHTML = `
+            <div class="q-text">${idx+1}. ${q.text}</div>
+            <div class="answer-wrap">
+                <span>=</span>
+                <input class="answer-input" id="ans${idx}" />
+                <span class="marker" id="mark${idx}"></span>
+            </div>
+        `;
+        qArea.appendChild(div);
+    });
+}
+
+function checkAnswers() {
+    if (alreadyChecked) return;
+    alreadyChecked = true;
+    playClick();
+    clearInterval(timerInterval);
+
+    const set = sets[currentSet] || [];
+    let score = 0;
+
+    set.forEach((q, idx) => {
+        const input = document.getElementById("ans"+idx);
+        const mark  = document.getElementById("mark"+idx);
+        const val = parseInt(input.value);
+        if (!isNaN(val) && val === q.answer) {
+            score++;
+            mark.textContent = "✓";
+            mark.classList.remove("no");
+            mark.classList.add("ok");
+        } else {
+            mark.textContent = "✗";
+            mark.classList.remove("ok");
+            mark.classList.add("no");
+        }
+    });
+
+    scores[currentSet] = score;
+    updateScoreboard();
+
+    const box = document.getElementById("scoreBox");
+    box.style.display = "block";
+    let msg = "";
+    if (score === set.length) {
+        msg = `Wow, ${playerName}! 🎉 Perfect score: ${score}/${set.length} ⭐`;
+        playResultGood();
+    } else if (score >= Math.floor(set.length * 0.7)) {
+        msg = `${playerName}, great job! 💙 You got ${score}/${set.length}. Keep going!`;
+    } else {
+        msg = `${playerName}, you got ${score}/${set.length}. That's okay — read the stories again and try once more 💫`;
+    }
+    box.innerHTML = msg;
+}
+
+function updateScoreboard() {
+    for (let s = 1; s <= 6; s++) {
+        const span = document.getElementById("scoreSet"+s);
+        if (!span) continue;
+        if (scores[s] === null) {
+            span.textContent = "Not played";
+        } else {
+            span.textContent = "Last: " + scores[s] + "/10";
+        }
+    }
+}
+
+function goHome() {
+    playClick();
+    clearInterval(timerInterval);
+    document.getElementById("game").style.display = "none";
+    document.getElementById("home").style.display = "block";
+}
+</script>
+
+</body>
+</html>
